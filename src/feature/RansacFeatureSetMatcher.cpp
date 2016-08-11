@@ -176,6 +176,8 @@ double RansacFeatureSetMatcher::matchSets(const std::vector<InterestPoint *> &re
     double inlierProbability = m_adaptive ? 2.0 / possibleCorrespondences.size() : m_inlierProbability;
     unsigned int iterations = ceil(log(1. - m_successProbability)/log(1. - inlierProbability * inlierProbability));
 
+    std::set<match> chosenMinSet;
+
     // Main loop
     double minimumScore = 1e17;
     for(unsigned int i = 0; i < iterations; i++){
@@ -183,6 +185,11 @@ double RansacFeatureSetMatcher::matchSets(const std::vector<InterestPoint *> &re
 	unsigned int first = generator(rng);
 	unsigned int second = generator(rng);
 	while(second == first) second = generator(rng); // avoid useless samples
+
+    // Check if we already selected this subset
+    std::pair<std::set<match>::iterator, bool> singleElem = chosenMinSet.insert( std::make_pair(first, second) );
+    if (!singleElem.second) continue;
+
 	std::pair< std::pair<InterestPoint *, InterestPoint *>, std::pair<InterestPoint *, InterestPoint *> > minimumSampleSet(possibleCorrespondences[first], possibleCorrespondences[second]);
 	
 	// Test rigidity
