@@ -35,3 +35,6 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/data DESTINATION share/flirtlib PATTERN 
 # Install the cmake config
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" @ONLY)
 install(FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" DESTINATION share/flirtlib/cmake)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in "${PROJECT_BINARY_DIR}/flirtlibConfig.cmake" @ONLY)
+install(FILES "${PROJECT_BINARY_DIR}/flirtlibConfig.cmake" DESTINATION share/flirtlib/cmake)
